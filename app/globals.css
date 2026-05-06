@@ -3,31 +3,83 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+  --floral-ivory      : #FDFAF7;
+  --floral-cream      : #F5EFE8;
+  --floral-blush      : #E8D5C4;
+  --floral-rose       : #D4A5A0;
+  --floral-dusty      : #C49A8A;
+  --floral-gold       : #C9A96E;
+  --floral-gold-deep  : #8B6F47;
+  --floral-sage       : #8FAF8A;
+  --floral-sage-dark  : #5A7A55;
+  --floral-text       : #2C2424;
+  --floral-muted      : #9A8070;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+html {
+  scroll-behavior: smooth;
+  background-color: var(--floral-cream);
+  color: var(--floral-text);
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+/* Custom Webkit scrollbar for premium feel */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--floral-ivory);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--floral-blush);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--floral-gold);
+}
+
+/* Custom animations */
+@keyframes float-petal {
+  0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.25; }
+  50% { transform: translateY(-20px) rotate(15deg); opacity: 0.55; }
+}
+
+@keyframes spin-vinyl {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes pulse-cta {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.04); }
+}
+
+.float-1 { animation: float-petal 9s ease-in-out infinite; }
+.float-2 { animation: float-petal 11s ease-in-out infinite 1.5s; }
+.float-3 { animation: float-petal 8s ease-in-out infinite 3s; }
+.float-4 { animation: float-petal 12s ease-in-out infinite 0.5s; }
+.float-5 { animation: float-petal 10s ease-in-out infinite 2s; }
+.float-6 { animation: float-petal 9s ease-in-out infinite 4s; }
+
+.vinyl-spinning { animation: spin-vinyl 5s linear infinite; }
+.vinyl-paused { animation-play-state: paused; }
+.pulse-cta { animation: pulse-cta 2.2s ease-in-out infinite; }
+
+/* Custom masonry column break helper */
+.break-inside-avoid {
+  break-inside: avoid;
+}
+
+/* Custom scroll snap for mobile preview simulation */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }

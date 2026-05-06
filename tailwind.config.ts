@@ -8,10 +8,25 @@ const config: Config = {
   ],
   theme: {
     extend: {
-      backgroundImage: {
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic":
-          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+      colors: {
+        floral: {
+          ivory: "var(--floral-ivory)",
+          cream: "var(--floral-cream)",
+          blush: "var(--floral-blush)",
+          rose: "var(--floral-rose)",
+          dusty: "var(--floral-dusty)",
+          gold: "var(--floral-gold)",
+          "gold-deep": "var(--floral-gold-deep)",
+          sage: "var(--floral-sage)",
+          "sage-dark": "var(--floral-sage-dark)",
+          text: "var(--floral-text)",
+          muted: "var(--floral-muted)",
+        },
+      },
+      fontFamily: {
+        display: ["var(--font-display)", "cursive"],
+        serif: ["var(--font-heading)", "serif"],
+        sans: ["var(--font-body)", "sans-serif"],
       },
     },
   },
