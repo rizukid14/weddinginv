@@ -49,9 +49,9 @@ export default function AkadResepsiSection({ data }: Props) {
     const icsContent = [
       "BEGIN:VCALENDAR",
       "VERSION:2.0",
-      "PRODID:-//RizuInvitation//Wedding//ID",
+      "PRODID:-//EnixDesign//Wedding//ID",
       "BEGIN:VEVENT",
-      `UID:${Date.now()}@rizuinvitation.com`,
+      `UID:${Date.now()}@enixdesign.com`,
       `DTSTART:${formatICSDate(startDate)}`,
       `DTEND:${formatICSDate(endDate)}`,
       `SUMMARY:${title} - ${data.brideNickname} & ${data.groomNickname}`,

@@ -55,13 +55,13 @@ Ensure you have Node.js (v18+) and npm installed on your machine.
 Create a `.env.local` file in the root directory and configure your client-side Firebase configurations:
 
 ```env
-NEXT_PUBLIC_FIREBASE_API_KEY="AIzaSyA0DpiW_69..."
-NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN="rizuinvitation.firebaseapp.com"
-NEXT_PUBLIC_FIREBASE_PROJECT_ID="rizuinvitation"
-NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET="rizuinvitation.firebasestorage.app"
-NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID="345627929606"
-NEXT_PUBLIC_FIREBASE_APP_ID="1:345627929606:web:..."
-NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID="G-P2MPWCNQ50"
+NEXT_PUBLIC_FIREBASE_API_KEY="your-firebase-api-key"
+NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN="your-app-id.firebaseapp.com"
+NEXT_PUBLIC_FIREBASE_PROJECT_ID="your-firebase-project-id"
+NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET="your-app-id.firebasestorage.app"
+NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID="your-messaging-sender-id"
+NEXT_PUBLIC_FIREBASE_APP_ID="your-firebase-app-id"
+NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID="your-measurement-id"
 ```
 
 ### 3. Firebase Security Rules
