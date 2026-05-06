@@ -4,7 +4,7 @@ import React from "react";
 import { motion as dMotion } from "framer-motion";
 import { MapPin, Calendar, Heart } from "lucide-react";
 import { WeddingData } from "@/types/wedding";
-import FloralDivider from "../ui/FloralDivider";
+import FloralDivider from "@/components/ui/FloralDivider";
 import { staggerContainer, fadeUp } from "@/lib/animations";
 
 interface Props {

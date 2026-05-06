@@ -3,15 +3,15 @@
 import React, { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { WeddingData } from "@/types/wedding";
-import OpeningOverlay from "./OpeningOverlay";
-import PasswordGate from "./PasswordGate";
-import CoverSection from "./CoverSection";
-import MempelaiSection from "./MempelaiSection";
-import AkadResepsiSection from "./AkadResepsiSection";
-import GallerySection from "./GallerySection";
-import RSVPSection from "./RSVPSection";
-import GiftSection from "./GiftSection";
-import MusicPlayer from "./MusicPlayer";
+import FloralOpeningOverlay from "./FloralOpeningOverlay";
+import FloralPasswordGate from "./FloralPasswordGate";
+import FloralCover from "./FloralCover";
+import FloralMempelai from "./FloralMempelai";
+import FloralAkadResepsi from "./FloralAkadResepsi";
+import FloralGallery from "./FloralGallery";
+import FloralRSVP from "./FloralRSVP";
+import FloralGift from "./FloralGift";
+import FloralMusicPlayer from "./FloralMusicPlayer";
 
 interface Props {
   data: WeddingData;
@@ -19,7 +19,7 @@ interface Props {
   guestName: string | null;
 }
 
-export default function WeddingInvitation({ data, slug, guestName }: Props) {
+export function FloralTemplate({ data, slug, guestName }: Props) {
   const [isOverlayOpen, setIsOverlayOpen] = useState(true);
   const [isPasswordGateOpen, setIsPasswordGateOpen] = useState(data.passwordEnabled);
   const [isMusicPlaying, setIsMusicPlaying] = useState(false);
@@ -49,7 +49,7 @@ export default function WeddingInvitation({ data, slug, guestName }: Props) {
         {/* Step 1: Welcome Splash Overlay */}
         <AnimatePresence mode="wait">
           {isOverlayOpen && (
-            <OpeningOverlay
+            <FloralOpeningOverlay
               data={data}
               guestName={guestName}
               onOpen={handleOpenInvitation}
@@ -60,7 +60,7 @@ export default function WeddingInvitation({ data, slug, guestName }: Props) {
         {/* Step 2: Password Authorization (Locks content behind gate) */}
         <AnimatePresence>
           {!isOverlayOpen && isPasswordGateOpen && data.passwordEnabled && (
-            <PasswordGate
+            <FloralPasswordGate
               correctPassword={data.password}
               onSuccess={() => setIsPasswordGateOpen(false)}
             />
@@ -69,12 +69,12 @@ export default function WeddingInvitation({ data, slug, guestName }: Props) {
 
         {/* Step 3: Main Scrollable Wedding Content (Renders below lock screen) */}
         <div className={!isOverlayOpen && (!data.passwordEnabled || !isPasswordGateOpen) ? "block" : "hidden"}>
-          <CoverSection data={data} />
-          <MempelaiSection data={data} />
-          <AkadResepsiSection data={data} />
-          <GallerySection data={data} />
-          <RSVPSection data={data} slug={slug} guestName={guestName} />
-          <GiftSection data={data} />
+          <FloralCover data={data} />
+          <FloralMempelai data={data} />
+          <FloralAkadResepsi data={data} />
+          <FloralGallery data={data} />
+          <FloralRSVP data={data} slug={slug} guestName={guestName} />
+          <FloralGift data={data} />
 
           {/* Premium custom credits footer */}
           <footer className="py-8 bg-floral-cream text-center border-t border-floral-blush/20 select-none z-10 relative">
@@ -92,7 +92,7 @@ export default function WeddingInvitation({ data, slug, guestName }: Props) {
 
         {/* Step 4: Floating Music Sound Deck */}
         {!isOverlayOpen && data.musicEnabled && (
-          <MusicPlayer
+          <FloralMusicPlayer
             musicUrl={data.musicUrl}
             musicTitle={data.musicTitle}
             isPlaying={isMusicPlaying}
@@ -103,3 +103,4 @@ export default function WeddingInvitation({ data, slug, guestName }: Props) {
     </div>
   );
 }
+

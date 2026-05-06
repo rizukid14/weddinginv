@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getWeddingData } from "@/lib/wedding";
-import WeddingInvitation from "@/components/invitation/WeddingInvitation";
+import TemplateSwitcher from "@/components/templates/TemplateSwitcher";
 
 export const dynamic = "force-dynamic";
 
@@ -51,10 +51,11 @@ export default async function InvitationPage({ params, searchParams }: PageProps
   const guestName = searchParams.to ? decodeURIComponent(searchParams.to).replace(/\+/g, " ") : null;
 
   return (
-    <WeddingInvitation
+    <TemplateSwitcher
       data={data}
       slug={params.slug}
       guestName={guestName}
     />
   );
 }
+

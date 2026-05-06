@@ -4,7 +4,7 @@ import React from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { WeddingData } from "@/types/wedding";
-import FloralDivider from "../ui/FloralDivider";
+import FloralDivider from "@/components/ui/FloralDivider";
 import { staggerContainer, fadeUp } from "@/lib/animations";
 
 interface Props {

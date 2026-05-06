@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Copy, Check, Gift, MessageSquare } from "lucide-react";
 import { WeddingData } from "@/types/wedding";
-import FloralDivider from "../ui/FloralDivider";
+import FloralDivider from "@/components/ui/FloralDivider";
 import { staggerContainer, fadeUp } from "@/lib/animations";
 
 interface Props {

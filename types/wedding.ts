@@ -14,12 +14,14 @@ export interface WeddingData {
   groomFatherName: string;     // "Bpk. Hendra Pratama"
   groomMotherName: string;     // "Ibu Sari Pratama"
   groomPhoto: string;          // Firebase Storage URL
+  groomInstagram?: string;
 
   brideName: string;           // "Amira Putri Rahayu"
   brideNickname: string;       // "Amira"
   brideFatherName: string;
   brideMotherName: string;
   bridePhoto: string;
+  brideInstagram?: string;
 
   // Acara
   akadEnabled: boolean;
@@ -48,6 +50,8 @@ export interface WeddingData {
   bankAccounts: BankAccount[];
   ewallets: EWallet[];
   giftRegistryUrl?: string;
+  giftAddress?: string;
+  giftReceiverName?: string;
 
   // Quote
   openingQuote: string;

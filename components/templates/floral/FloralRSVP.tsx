@@ -1,13 +1,12 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Send, Heart, Check, Users, MessageSquare } from "lucide-react";
-import { collection, query, orderBy, limit, onSnapshot } from "firebase/firestore";
-import { db } from "@/lib/firebase";
-import { WeddingData, RSVPEntry } from "@/types/wedding";
-import FloralDivider from "../ui/FloralDivider";
+import { Send, Check, Users, MessageSquare } from "lucide-react";
+import { WeddingData } from "@/types/wedding";
+import FloralDivider from "@/components/ui/FloralDivider";
 import { staggerContainer, fadeUp, scaleIn } from "@/lib/animations";
+import RSVPFeed from "@/components/shared/RSVPFeed";
 
 interface Props {
   data: WeddingData;
@@ -15,38 +14,7 @@ interface Props {
   guestName: string | null;
 }
 
-// Initial default sweet Indonesian wedding wishes for fallback mode
-const DEFAULT_FALLBACK_WISHES: RSVPEntry[] = [
-  {
-    id: "m1",
-    weddingSlug: "rizki-amira",
-    guestName: "Budi Santoso",
-    attendance: "hadir",
-    guestCount: 2,
-    message: "Barakallahu lakum wa baraka 'alaikum, semoga menjadi keluarga sakinah, mawaddah, warahmah. Sangat tidak sabar untuk hadir di hari istimewa kalian!",
-    createdAt: new Date(Date.now() - 30 * 60 * 1000).toISOString(), // 30 mins ago
-  },
-  {
-    id: "m2",
-    weddingSlug: "rizki-amira",
-    guestName: "Siti Rahma",
-    attendance: "mungkin",
-    guestCount: 1,
-    message: "Selamat ya Amira & Rizki! Semoga persiapannya lancar sampai hari-H. Insya Allah aku usahakan hadir.",
-    createdAt: new Date(Date.now() - 3 * 3600 * 1000).toISOString(), // 3 hours ago
-  },
-  {
-    id: "m3",
-    weddingSlug: "rizki-amira",
-    guestName: "Hendra Wijaya",
-    attendance: "tidak_hadir",
-    guestCount: 0,
-    message: "Mohon maaf yang sebesar-besarnya Rizki & Amira, saya sedang ada tugas di luar kota. Selamat menempuh hidup baru ya, semoga langgeng bahagia dunia akhirat!",
-    createdAt: new Date(Date.now() - 12 * 3600 * 1000).toISOString(), // 12 hours ago
-  },
-];
-
-export default function RSVPSection({ data, slug, guestName }: Props) {
+export default function FloralRSVP({ data, slug, guestName }: Props) {
   const [name, setName] = useState(guestName || "");
   const [attendance, setAttendance] = useState<"hadir" | "tidak_hadir" | "mungkin" | "">("");
   const [guestCount, setGuestCount] = useState(1);
@@ -55,79 +23,6 @@ export default function RSVPSection({ data, slug, guestName }: Props) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
-
-  // Wishes State (Realtime)
-  const [wishes, setWishes] = useState<RSVPEntry[]>([]);
-
-  // Calculate relative times (e.g., "5 menit yang lalu", "2 jam yang lalu")
-  const getRelativeTime = (isoString: string) => {
-    try {
-      const now = new Date();
-      const past = new Date(isoString);
-      const diffMs = now.getTime() - past.getTime();
-      const diffMins = Math.floor(diffMs / 60000);
-
-      if (diffMins < 1) return "Baru saja";
-      if (diffMins < 60) return `${diffMins} menit yang lalu`;
-
-      const diffHrs = Math.floor(diffMins / 60);
-      if (diffHrs < 24) return `${diffHrs} jam yang lalu`;
-
-      const diffDays = Math.floor(diffHrs / 24);
-      return `${diffDays} hari yang lalu`;
-    } catch (e) {
-      return "Beberapa saat yang lalu";
-    }
-  };
-
-  // 1. Setup Wishes Listener (Firestore with local fallback)
-  useEffect(() => {
-    // ALWAYS load from LocalStorage initially so the board is populated immediately
-    loadLocalStorageWishes();
-
-    const isFirebaseConfigured = process.env.NEXT_PUBLIC_FIREBASE_API_KEY;
-
-    if (isFirebaseConfigured) {
-      try {
-        const rsvpCollectionRef = collection(db, "weddings", slug, "rsvp");
-        const rsvpQuery = query(rsvpCollectionRef, orderBy("createdAt", "desc"), limit(10));
-
-        const unsubscribe = onSnapshot(rsvpCollectionRef, (snapshot) => {
-          if (!snapshot.empty) {
-            const list: RSVPEntry[] = [];
-            snapshot.forEach((doc) => {
-              list.push({ id: doc.id, ...doc.data() } as RSVPEntry);
-            });
-            // Overwrite and persist Firestore data
-            setWishes(list);
-            const key = `rsvp_wishes_${slug}`;
-            localStorage.setItem(key, JSON.stringify(list));
-          }
-        }, (err) => {
-          console.warn("Firestore listener failed, running in local storage fallback mode.", err);
-        });
-
-        return () => unsubscribe();
-      } catch (e) {
-        console.warn("Error setting up real-time onSnapshot listener. Using local wishes.");
-      }
-    }
-  }, [slug]);
-
-  const loadLocalStorageWishes = () => {
-    const key = `rsvp_wishes_${slug}`;
-    const stored = localStorage.getItem(key);
-    if (stored) {
-      try {
-        setWishes(JSON.parse(stored));
-      } catch (e) {
-        setWishes(DEFAULT_FALLBACK_WISHES);
-      }
-    } else {
-      localStorage.setItem(key, JSON.stringify(DEFAULT_FALLBACK_WISHES));
-      setWishes(DEFAULT_FALLBACK_WISHES);
-    }
-  };
 
   // Handle Form Submit
   const handleFormSubmit = async (e: React.FormEvent) => {
@@ -186,8 +81,9 @@ export default function RSVPSection({ data, slug, guestName }: Props) {
       // If server is in Mock fallback mode or request failed, update local list immediately
       if (isMockedServer) {
         const key = `rsvp_wishes_${slug}`;
-        const currentList = [...wishes];
-        const newEntry: RSVPEntry = {
+        const stored = localStorage.getItem(key);
+        let currentList = stored ? JSON.parse(stored) : [];
+        const newEntry = {
           id: newId,
           weddingSlug: slug,
           guestName: payload.guestName,
@@ -199,7 +95,6 @@ export default function RSVPSection({ data, slug, guestName }: Props) {
 
         const updated = [newEntry, ...currentList];
         localStorage.setItem(key, JSON.stringify(updated));
-        setWishes(updated);
       }
 
       setSuccess(true);
@@ -395,70 +290,22 @@ export default function RSVPSection({ data, slug, guestName }: Props) {
         <div className="flex items-center gap-2 border-b border-floral-blush/40 pb-3 mb-6 select-none">
           <MessageSquare size={14} className="text-floral-gold" />
           <span className="font-sans text-[10px] uppercase tracking-widest text-floral-gold font-bold">
-            Wishes & Prayers Wall ({wishes.length})
+            Wishes & Prayers Wall
           </span>
         </div>
 
-        {wishes.length === 0 ? (
-          <div className="bg-white border border-floral-blush/30 rounded-xl p-6 text-center shadow-sm select-none">
-            <Heart size={20} className="text-floral-rose/50 mx-auto mb-2 animate-pulse" />
-            <p className="font-sans text-xs text-floral-muted italic">
-              Jadilah yang pertama untuk mengirimkan ucapan tulus bagi kedua mempelai 💌
-            </p>
-          </div>
-        ) : (
-          <div className="flex flex-col gap-3 max-h-[400px] overflow-y-auto pr-1 no-scrollbar">
-            <AnimatePresence initial={false}>
-              {wishes.map((item) => (
-                <motion.div
-                  key={item.id}
-                  initial={{ opacity: 0, y: 15 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="bg-white border border-floral-blush/30 rounded-xl p-4 shadow-sm flex gap-3.5 items-start"
-                >
-                  {/* Circle Avatar */}
-                  <div className="w-10 h-10 rounded-full bg-floral-gold/15 flex-shrink-0 flex items-center justify-center text-floral-gold-deep font-semibold select-none">
-                    <span className="font-display text-lg">
-                      {item.guestName.charAt(0)}
-                    </span>
-                  </div>
-
-                  {/* Info block */}
-                  <div className="flex-grow">
-                    <div className="flex items-center gap-1.5 flex-wrap">
-                      <h4 className="font-sans text-xs font-semibold text-floral-text">
-                        {item.guestName}
-                      </h4>
-
-                      {/* Attendance badge */}
-                      {item.attendance === "hadir" ? (
-                        <span className="bg-[#E2F0D9] text-[#385723] text-[9px] px-2 py-0.5 rounded-full font-medium leading-none">
-                          Hadir ({item.guestCount})
-                        </span>
-                      ) : item.attendance === "mungkin" ? (
-                        <span className="bg-[#FFF2CC] text-[#7F6000] text-[9px] px-2 py-0.5 rounded-full font-medium leading-none">
-                          Mungkin
-                        </span>
-                      ) : (
-                        <span className="bg-[#FCE4D6] text-[#C65911] text-[9px] px-2 py-0.5 rounded-full font-medium leading-none">
-                          Berhalangan
-                        </span>
-                      )}
-                    </div>
-
-                    <p className="font-sans text-[11px] text-floral-text italic leading-relaxed mt-1.5">
-                      &ldquo;{item.message}&rdquo;
-                    </p>
-
-                    <span className="font-sans text-[8px] text-floral-muted/60 mt-1 block">
-                      {getRelativeTime(item.createdAt)}
-                    </span>
-                  </div>
-                </motion.div>
-              ))}
-            </AnimatePresence>
-          </div>
-        )}
+        <RSVPFeed
+          slug={slug}
+          cardClassName="bg-white border border-floral-blush/30 rounded-xl p-4 shadow-sm flex gap-3.5 items-start"
+          avatarClassName="w-10 h-10 rounded-full bg-floral-gold/15 flex-shrink-0 flex items-center justify-center text-floral-gold-deep font-semibold select-none font-display text-lg"
+          nameClassName="font-sans text-xs font-semibold text-floral-text"
+          messageClassName="font-sans text-[11px] text-floral-text italic leading-relaxed mt-1.5"
+          timeClassName="font-sans text-[8px] text-floral-muted/60 mt-1 block"
+          emptyStateClassName="bg-white border border-floral-blush/30 rounded-xl p-6 text-center shadow-sm select-none animate-pulse"
+          badgeHadirClass="bg-[#E2F0D9] text-[#385723] text-[9px] px-2 py-0.5 rounded-full font-medium leading-none"
+          badgeMungkinClass="bg-[#FFF2CC] text-[#7F6000] text-[9px] px-2 py-0.5 rounded-full font-medium leading-none"
+          badgeAbsenClass="bg-[#FCE4D6] text-[#C65911] text-[9px] px-2 py-0.5 rounded-full font-medium leading-none"
+        />
       </div>
 
       <div className="mt-12 text-center">
@@ -467,3 +314,4 @@ export default function RSVPSection({ data, slug, guestName }: Props) {
     </motion.section>
   );
 }
+
