@@ -57,6 +57,14 @@ export interface WeddingData {
   openingQuote: string;
   openingQuoteSource: string;
 
+  // Split invitations
+  splitInvitationEnabled?: boolean;
+  defaultInvitationTier?: "akad" | "all";
+
+  // Spiritual template options
+  bismillahEnabled?: boolean;
+  ayatNikahEnabled?: boolean;
+
   // Meta
   createdAt: string;
   expiresAt: string;

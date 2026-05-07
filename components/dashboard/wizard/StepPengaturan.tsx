@@ -140,13 +140,74 @@ export default function StepPengaturan({ data, update }: StepProps) {
         )}
       </div>
 
+      {/* Akses & Pembagian Undangan (Split Invitation) */}
+      <div className="flex flex-col gap-5 bg-zinc-900/10 border border-zinc-800/40 p-5 rounded-2xl">
+        <div className="flex items-center justify-between border-b border-zinc-800/80 pb-3 select-none">
+          <div className="flex items-center gap-2">
+            <Shield size={16} className="text-amber-500" />
+            <span className="text-xs uppercase tracking-widest text-amber-500 font-bold">
+              Pembagian Undangan Khusus (Split Invitation)
+            </span>
+          </div>
+          {/* Toggle Switch */}
+          <button
+            type="button"
+            onClick={() => update({ splitInvitationEnabled: !data.splitInvitationEnabled })}
+            className={`w-11 h-6 rounded-full relative p-1 transition-colors duration-200 focus:outline-none ${
+              data.splitInvitationEnabled ? "bg-amber-500" : "bg-zinc-800"
+            }`}
+          >
+            <div
+              className={`w-4 h-4 rounded-full bg-[#110F0F] transition-transform duration-200 ${
+                data.splitInvitationEnabled ? "translate-x-5" : "translate-x-0"
+              }`}
+            />
+          </button>
+        </div>
+
+        {data.splitInvitationEnabled && (
+          <div className="flex flex-col gap-4 animate-fade-in text-left">
+            <div>
+              <label className="text-[10px] uppercase tracking-widest text-zinc-400 font-semibold mb-1.5 block">
+                Tipe Kehadiran Bawaan (Default Tier)
+              </label>
+              <div className="flex gap-2">
+                {[
+                  { key: "all", label: "Seluruh Acara (Akad & Resepsi)" },
+                  { key: "akad", label: "Khusus Akad Nikah Saja" }
+                ].map((tierOpt) => {
+                  const isSel = (data.defaultInvitationTier || "all") === tierOpt.key;
+                  return (
+                    <button
+                      key={tierOpt.key}
+                      type="button"
+                      onClick={() => update({ defaultInvitationTier: tierOpt.key as any })}
+                      className={`flex-1 py-2.5 px-4 rounded-xl text-xs font-bold transition-all border ${
+                        isSel
+                          ? "bg-amber-500 text-zinc-950 border-amber-500"
+                          : "bg-[#221F1F] text-zinc-400 border-zinc-800 hover:text-zinc-200"
+                      }`}
+                    >
+                      {tierOpt.label}
+                    </button>
+                  );
+                })}
+              </div>
+              <p className="text-[10px] text-zinc-500 leading-normal mt-2">
+                Tamu yang dikirimi link tanpa parameter khusus akan melihat tipe kehadiran bawaan ini. Untuk memisahkan tamu khusus Akad Nikah saja, tambahkan parameter <code className="text-amber-400/90 font-mono text-[9px] bg-zinc-950 px-1 py-0.5 rounded">?tier=akad</code> di akhir link undangan mereka.
+              </p>
+            </div>
+          </div>
+        )}
+      </div>
+
       {/* Template Selector Section */}
       <div className="flex flex-col gap-4">
         <span className="text-[10px] uppercase tracking-widest text-amber-500 font-bold border-b border-zinc-800/80 pb-1.5 block select-none">
           🎨 Pilih Desain Template Undangan
         </span>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {/* Option 1: Floral */}
           <button
             type="button"
@@ -217,6 +278,44 @@ export default function StepPengaturan({ data, update }: StepProps) {
             <span className="text-xs font-bold text-zinc-100">Retro Vintage</span>
             <span className="text-[10px] text-zinc-400">Estetika majalah/zine 1970-an dengan palet krem, mustard &amp; terra.</span>
             {data.templateId === "retro" && (
+              <div className="absolute top-2 right-2 w-3.5 h-3.5 rounded-full bg-amber-500 flex items-center justify-center">
+                <Check size={10} className="text-zinc-950 stroke-[3]" />
+              </div>
+            )}
+          </button>
+
+          {/* Option 5: Culture */}
+          <button
+            type="button"
+            onClick={() => update({ templateId: "culture" })}
+            className={`text-left rounded-xl p-4 flex flex-col gap-1.5 relative overflow-hidden select-none transition-all duration-300 ${
+              data.templateId === "culture"
+                ? "border-2 border-amber-500 bg-[#221F1F]/20 shadow-lg shadow-amber-500/5"
+                : "border border-zinc-800/80 bg-zinc-900/10 hover:border-zinc-700 hover:bg-zinc-800/10"
+            }`}
+          >
+            <span className="text-xs font-bold text-zinc-100">Culture Javanese</span>
+            <span className="text-[10px] text-zinc-400">Estetika Sido Mukti &amp; motif batik Kawung Sogaran Jawa tradisional keraton.</span>
+            {data.templateId === "culture" && (
+              <div className="absolute top-2 right-2 w-3.5 h-3.5 rounded-full bg-amber-500 flex items-center justify-center">
+                <Check size={10} className="text-zinc-950 stroke-[3]" />
+              </div>
+            )}
+          </button>
+
+          {/* Option 6: Spiritual */}
+          <button
+            type="button"
+            onClick={() => update({ templateId: "spiritual" })}
+            className={`text-left rounded-xl p-4 flex flex-col gap-1.5 relative overflow-hidden select-none transition-all duration-300 ${
+              data.templateId === "spiritual"
+                ? "border-2 border-amber-500 bg-[#221F1F]/20 shadow-lg shadow-amber-500/5"
+                : "border border-zinc-800/80 bg-zinc-900/10 hover:border-zinc-700 hover:bg-zinc-800/10"
+            }`}
+          >
+            <span className="text-xs font-bold text-zinc-100">Spiritual Islamic</span>
+            <span className="text-[10px] text-zinc-400">Keagungan islami bernuansa kubah mihrab hijau zamrud dan emas khatam.</span>
+            {data.templateId === "spiritual" && (
               <div className="absolute top-2 right-2 w-3.5 h-3.5 rounded-full bg-amber-500 flex items-center justify-center">
                 <Check size={10} className="text-zinc-950 stroke-[3]" />
               </div>

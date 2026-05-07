@@ -9,7 +9,15 @@ import {
   Dancing_Script,
   Syne,
   DM_Mono,
-  Fraunces
+  Fraunces,
+  Cormorant,
+  IM_Fell_English,
+  Quattrocento_Sans,
+  Cinzel,
+  Amiri,
+  Scheherazade_New,
+  Tajawal,
+  EB_Garamond
 } from "next/font/google";
 import "./globals.css";
 
@@ -22,7 +30,7 @@ const greatVibes = Great_Vibes({
 });
 
 // Configure Cormorant Garamond for elegant editorial headings (Floral Heading)
-const cormorant = Cormorant_Garamond({
+const cormorantGaramond = Cormorant_Garamond({
   weight: ["300", "400", "500", "600", "700"],
   subsets: ["latin"],
   style: ["normal", "italic"],
@@ -40,7 +48,6 @@ const plusJakarta = Plus_Jakarta_Sans({
 
 // --- SPRINT 3 FONTS ---
 
-// Yeseva One: decorative serif (Brush Display)
 const yesevaOne = Yeseva_One({
   weight: "400",
   subsets: ["latin"],
@@ -48,7 +55,6 @@ const yesevaOne = Yeseva_One({
   display: "swap",
 });
 
-// Libre Baskerville: traditional elegant serif (Brush Heading)
 const libreBaskerville = Libre_Baskerville({
   weight: ["400", "700"],
   style: ["normal", "italic"],
@@ -57,7 +63,6 @@ const libreBaskerville = Libre_Baskerville({
   display: "swap",
 });
 
-// Karla: clean modern grok-sans (Brush Body)
 const karla = Karla({
   weight: ["300", "400", "500", "700"],
   subsets: ["latin"],
@@ -66,7 +71,6 @@ const karla = Karla({
   display: "swap",
 });
 
-// Dancing Script: expressive organic script (Brush Accent)
 const dancingScript = Dancing_Script({
   weight: ["700"],
   subsets: ["latin"],
@@ -74,7 +78,6 @@ const dancingScript = Dancing_Script({
   display: "swap",
 });
 
-// Syne: futuristic eye-catching geometric (Modern Display)
 const syne = Syne({
   weight: ["400", "500", "600", "700", "800"],
   subsets: ["latin"],
@@ -82,7 +85,6 @@ const syne = Syne({
   display: "swap",
 });
 
-// DM Mono: sleek editorial coding interface (Modern Body)
 const dmMono = DM_Mono({
   weight: ["300", "400", "500"],
   subsets: ["latin"],
@@ -91,12 +93,74 @@ const dmMono = DM_Mono({
   display: "swap",
 });
 
-// Fraunces: high-fashion bespoke italic serif (Modern Accent)
 const fraunces = Fraunces({
   weight: ["300", "400"],
   style: ["italic"],
   subsets: ["latin"],
   variable: "--font-modern-accent",
+  display: "swap",
+});
+
+// --- SPRINT 5 FONTS ---
+
+const cormorant = Cormorant({
+  weight: ["700"],
+  style: ["normal", "italic"],
+  subsets: ["latin"],
+  variable: "--font-culture-display",
+  display: "swap",
+});
+
+const imFellEnglish = IM_Fell_English({
+  weight: ["400"],
+  style: ["normal", "italic"],
+  subsets: ["latin"],
+  variable: "--font-culture-subheading",
+  display: "swap",
+  adjustFontFallback: false,
+});
+
+const quattrocentoSans = Quattrocento_Sans({
+  weight: ["400", "700"],
+  subsets: ["latin"],
+  variable: "--font-culture-body",
+  display: "swap",
+});
+
+const cinzel = Cinzel({
+  weight: ["400", "700"],
+  subsets: ["latin"],
+  variable: "--font-culture-number",
+  display: "swap",
+});
+
+const amiri = Amiri({
+  weight: ["400", "700"],
+  style: ["normal", "italic"],
+  subsets: ["arabic", "latin"],
+  variable: "--font-spirit-arabic",
+  display: "swap",
+});
+
+const scheherazadeNew = Scheherazade_New({
+  weight: ["400", "700"],
+  subsets: ["arabic", "latin"],
+  variable: "--font-spirit-heading",
+  display: "swap",
+});
+
+const tajawal = Tajawal({
+  weight: ["300", "400", "500"],
+  subsets: ["arabic", "latin"],
+  variable: "--font-spirit-body",
+  display: "swap",
+});
+
+const ebGaramond = EB_Garamond({
+  weight: ["400", "600"],
+  style: ["normal", "italic"],
+  subsets: ["latin"],
+  variable: "--font-spirit-serif",
   display: "swap",
 });
 
@@ -121,7 +185,7 @@ export default function RootLayout({
       lang="id"
       className={`
         ${greatVibes.variable}
-        ${cormorant.variable}
+        ${cormorantGaramond.variable}
         ${plusJakarta.variable}
         ${yesevaOne.variable}
         ${libreBaskerville.variable}
@@ -130,6 +194,14 @@ export default function RootLayout({
         ${syne.variable}
         ${dmMono.variable}
         ${fraunces.variable}
+        ${cormorant.variable}
+        ${imFellEnglish.variable}
+        ${quattrocentoSans.variable}
+        ${cinzel.variable}
+        ${amiri.variable}
+        ${scheherazadeNew.variable}
+        ${tajawal.variable}
+        ${ebGaramond.variable}
       `}
     >
       <body className="font-sans antialiased bg-[#F5EFE8]">
