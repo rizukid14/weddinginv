@@ -5,6 +5,7 @@ import { WeddingData } from "@/types/wedding";
 import { FloralTemplate } from "./floral";
 import BrushTemplate from "./brush";
 import ModernTemplate from "./modern";
+import RetroTemplate from "./retro";
 
 interface Props {
   data: WeddingData;
@@ -16,6 +17,8 @@ export default function TemplateSwitcher({ data, slug, guestName }: Props) {
   const selectedTemplate = ((data as any).template || data.templateId || "floral").toLowerCase();
 
   switch (selectedTemplate) {
+    case "retro":
+      return <RetroTemplate data={data} slug={slug} guestName={guestName} />;
     case "brush":
       return <BrushTemplate data={data} slug={slug} guestName={guestName} />;
     case "modern":

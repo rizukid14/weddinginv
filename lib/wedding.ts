@@ -185,6 +185,87 @@ export const dummyWeddingModern: WeddingData = {
   expiresAt: "2028-12-31T00:00:00"
 };
 
+export const dummyWeddingRetro: WeddingData = {
+  slug: "bimo-sekar",
+  templateId: "retro",
+  isActive: true,
+  passwordEnabled: true,
+  password: "bimo2025",
+
+  groomName: "Bimo Prasetyo Wibowo",
+  groomNickname: "Bimo",
+  groomFatherName: "Bpk. Prasetyo Wibowo",
+  groomMotherName: "Ibu Sri Wahyuni",
+  groomPhoto: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=400&h=500&fit=crop",
+
+  brideName: "Sekar Ayu Maharani",
+  brideNickname: "Sekar",
+  brideFatherName: "Bpk. Bambang Maharani",
+  brideMotherName: "Ibu Endang Maharani",
+  bridePhoto: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=400&h=500&fit=crop",
+
+  akadEnabled: true,
+  akadDate: "2025-10-04T08:00:00",
+  akadVenue: "Pendopo Agung Keraton Surakarta",
+  akadAddress: "Jl. Mangkubumi No. 1, Surakarta, Jawa Tengah",
+  akadMapsUrl: "https://maps.google.com/?q=-7.5742,110.8315",
+
+  resepsiEnabled: true,
+  resepsiDate: "2025-10-04T11:00:00",
+  resepsiVenue: "The Sunan Hotel Solo",
+  resepsiAddress: "Jl. Ahmad Yani No. 40, Surakarta, Jawa Tengah",
+  resepsiMapsUrl: "https://maps.google.com/?q=-7.5578,110.8354",
+
+  coverPhoto: "https://images.unsplash.com/photo-1583939003579-730e3918a45a?q=80&w=800&h=1000&fit=crop",
+  galleryPhotos: [
+    "https://images.unsplash.com/photo-1519225495810-7517c296517a?q=80&w=800&h=533&fit=crop",
+    "https://images.unsplash.com/photo-1522673607200-164d1b6ce486?q=80&w=400&h=500&fit=crop",
+    "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?q=80&w=400&h=500&fit=crop",
+    "https://images.unsplash.com/photo-1532712938310-34cb3982ef74?q=80&w=800&h=533&fit=crop",
+    "https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?q=80&w=400&h=500&fit=crop",
+    "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=400&h=500&fit=crop"
+  ],
+
+  musicEnabled: true,
+  musicUrl: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3",
+  musicTitle: "Bengawan Solo — Gesang",
+
+  giftEnabled: true,
+  bankAccounts: [
+    {
+      bankName: "BRI",
+      accountNumber: "0987654321098",
+      accountName: "Bimo Prasetyo Wibowo"
+    },
+    {
+      bankName: "BSI",
+      accountNumber: "7171234567890",
+      accountName: "Sekar Ayu Maharani"
+    }
+  ],
+  ewallets: [
+    {
+      provider: "GoPay",
+      number: "082134567890",
+      accountName: "Bimo Prasetyo",
+      qrCodeUrl: ""
+    },
+    {
+      provider: "Dana",
+      number: "082134567890",
+      accountName: "Sekar Ayu",
+      qrCodeUrl: ""
+    }
+  ],
+  giftRegistryUrl: "",
+
+  openingQuote: "Dan di antara tanda-tanda kekuasaan-Nya ialah Dia menciptakan untukmu istri-istri dari jenismu sendiri.",
+  openingQuoteSource: "QS. Ar-Rum: 21",
+
+  createdAt: "2025-01-01T00:00:00",
+  expiresAt: "2028-12-31T00:00:00"
+};
+
 export async function getWeddingData(slug: string): Promise<WeddingData | null> {
   // If Firebase Admin SDK is initialized, read from Firestore
   if (adminDb) {
@@ -205,6 +286,10 @@ export async function getWeddingData(slug: string): Promise<WeddingData | null> 
         console.log(`[Firebase Seeding] Automatically seeding modern template wedding profile for '${slug}' into live Cloud Firestore...`);
         await docRef.set(dummyWeddingModern);
         return dummyWeddingModern;
+      } else if (slug === "bimo-sekar") {
+        console.log(`[Firebase Seeding] Automatically seeding retro template wedding profile for '${slug}' into live Cloud Firestore...`);
+        await docRef.set(dummyWeddingRetro);
+        return dummyWeddingRetro;
       }
     } catch (err) {
       console.error(`Error fetching/seeding wedding from Firestore for slug ${slug}:`, err);
@@ -220,6 +305,9 @@ export async function getWeddingData(slug: string): Promise<WeddingData | null> 
   }
   if (slug === "farhan-zahra") {
     return dummyWeddingModern;
+  }
+  if (slug === "bimo-sekar") {
+    return dummyWeddingRetro;
   }
 
   return null;

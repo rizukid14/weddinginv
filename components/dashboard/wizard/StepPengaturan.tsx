@@ -146,33 +146,82 @@ export default function StepPengaturan({ data, update }: StepProps) {
           🎨 Pilih Desain Template Undangan
         </span>
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {/* Option 1: Floral */}
-          <div className="border-2 border-amber-500 bg-[#221F1F]/20 rounded-xl p-4 flex flex-col gap-1.5 relative overflow-hidden select-none shadow-lg shadow-amber-500/5">
+          <button
+            type="button"
+            onClick={() => update({ templateId: "floral" })}
+            className={`text-left rounded-xl p-4 flex flex-col gap-1.5 relative overflow-hidden select-none transition-all duration-300 ${
+              (data.templateId || "floral") === "floral"
+                ? "border-2 border-amber-500 bg-[#221F1F]/20 shadow-lg shadow-amber-500/5"
+                : "border border-zinc-800/80 bg-zinc-900/10 hover:border-zinc-700 hover:bg-zinc-800/10"
+            }`}
+          >
             <span className="text-xs font-bold text-zinc-100">Floral Elegant</span>
             <span className="text-[10px] text-zinc-400">Palet krem lembut dan ornamen bunga mawar klasik premium.</span>
-            <div className="absolute top-2 right-2 w-3.5 h-3.5 rounded-full bg-amber-500 flex items-center justify-center">
-              <Check size={10} className="text-zinc-950 stroke-[3]" />
-            </div>
-          </div>
+            {(data.templateId || "floral") === "floral" && (
+              <div className="absolute top-2 right-2 w-3.5 h-3.5 rounded-full bg-amber-500 flex items-center justify-center">
+                <Check size={10} className="text-zinc-950 stroke-[3]" />
+              </div>
+            )}
+          </button>
 
           {/* Option 2: Brush */}
-          <div className="border border-zinc-800/80 bg-zinc-900/10 rounded-xl p-4 flex flex-col gap-1.5 relative overflow-hidden opacity-50 select-none cursor-not-allowed">
-            <span className="text-xs font-bold text-zinc-400">Brush Artistic</span>
-            <span className="text-[10px] text-zinc-500">Sentuhan sapuan kuas kanvas modern bernuansa abu estetis.</span>
-            <span className="absolute top-2 right-2 text-[8px] font-bold uppercase tracking-wider text-amber-500 bg-amber-500/10 border border-amber-500/20 px-1.5 py-0.5 rounded">
-              Segera
-            </span>
-          </div>
+          <button
+            type="button"
+            onClick={() => update({ templateId: "brush" })}
+            className={`text-left rounded-xl p-4 flex flex-col gap-1.5 relative overflow-hidden select-none transition-all duration-300 ${
+              data.templateId === "brush"
+                ? "border-2 border-amber-500 bg-[#221F1F]/20 shadow-lg shadow-amber-500/5"
+                : "border border-zinc-800/80 bg-zinc-900/10 hover:border-zinc-700 hover:bg-zinc-800/10"
+            }`}
+          >
+            <span className="text-xs font-bold text-zinc-100">Brush Artistic</span>
+            <span className="text-[10px] text-zinc-400">Sentuhan sapuan kuas kanvas modern bernuansa abu estetis.</span>
+            {data.templateId === "brush" && (
+              <div className="absolute top-2 right-2 w-3.5 h-3.5 rounded-full bg-amber-500 flex items-center justify-center">
+                <Check size={10} className="text-zinc-950 stroke-[3]" />
+              </div>
+            )}
+          </button>
 
           {/* Option 3: Modern */}
-          <div className="border border-zinc-800/80 bg-zinc-900/10 rounded-xl p-4 flex flex-col gap-1.5 relative overflow-hidden opacity-50 select-none cursor-not-allowed">
-            <span className="text-xs font-bold text-zinc-400">Modern Minimalist</span>
-            <span className="text-[10px] text-zinc-500">Tata letak serif geometris bersih bergaya editorial majalah.</span>
-            <span className="absolute top-2 right-2 text-[8px] font-bold uppercase tracking-wider text-amber-500 bg-amber-500/10 border border-amber-500/20 px-1.5 py-0.5 rounded">
-              Segera
-            </span>
-          </div>
+          <button
+            type="button"
+            onClick={() => update({ templateId: "modern" })}
+            className={`text-left rounded-xl p-4 flex flex-col gap-1.5 relative overflow-hidden select-none transition-all duration-300 ${
+              data.templateId === "modern"
+                ? "border-2 border-amber-500 bg-[#221F1F]/20 shadow-lg shadow-amber-500/5"
+                : "border border-zinc-800/80 bg-zinc-900/10 hover:border-zinc-700 hover:bg-zinc-800/10"
+            }`}
+          >
+            <span className="text-xs font-bold text-zinc-100">Modern Minimalist</span>
+            <span className="text-[10px] text-zinc-400">Tata letak serif geometris bersih bergaya editorial majalah.</span>
+            {data.templateId === "modern" && (
+              <div className="absolute top-2 right-2 w-3.5 h-3.5 rounded-full bg-amber-500 flex items-center justify-center">
+                <Check size={10} className="text-zinc-950 stroke-[3]" />
+              </div>
+            )}
+          </button>
+
+          {/* Option 4: Retro */}
+          <button
+            type="button"
+            onClick={() => update({ templateId: "retro" })}
+            className={`text-left rounded-xl p-4 flex flex-col gap-1.5 relative overflow-hidden select-none transition-all duration-300 ${
+              data.templateId === "retro"
+                ? "border-2 border-amber-500 bg-[#221F1F]/20 shadow-lg shadow-amber-500/5"
+                : "border border-zinc-800/80 bg-zinc-900/10 hover:border-zinc-700 hover:bg-zinc-800/10"
+            }`}
+          >
+            <span className="text-xs font-bold text-zinc-100">Retro Vintage</span>
+            <span className="text-[10px] text-zinc-400">Estetika majalah/zine 1970-an dengan palet krem, mustard &amp; terra.</span>
+            {data.templateId === "retro" && (
+              <div className="absolute top-2 right-2 w-3.5 h-3.5 rounded-full bg-amber-500 flex items-center justify-center">
+                <Check size={10} className="text-zinc-950 stroke-[3]" />
+              </div>
+            )}
+          </button>
         </div>
       </div>
 

@@ -43,7 +43,10 @@ export default function ModernOpeningOverlay({ data, guestName, onOpen }: Openin
     >
       {/* 1. Dramatic huge letter watermark */}
       <div className="absolute inset-0 pointer-events-none z-0 flex items-center justify-center">
-        <h2 className="font-modern-display text-[22rem] text-[var(--modern-white)]/[0.015] font-black uppercase select-none tracking-tighter leading-none">
+        <h2 
+          className="font-modern-display text-[22rem] text-white font-black uppercase select-none tracking-tighter leading-none"
+          style={{ opacity: 0.015 }}
+        >
           {getInitialsWatermark()}
         </h2>
       </div>

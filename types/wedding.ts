@@ -66,12 +66,14 @@ export interface BankAccount {
   bankName: string;
   accountNumber: string;
   accountName: string;
+  logoUrl?: string;
 }
 
 export interface EWallet {
   provider: string;            // "GoPay" | "OVO" | "Dana"
   number: string;
   qrCodeUrl?: string;
+  accountName?: string;
 }
 
 export interface RSVPEntry {
