@@ -15,6 +15,47 @@ interface Props {
 export default function CultureAkadResepsi({ data, tier = "all" }: Props) {
   const isAkadOnly = tier === "akad";
 
+  // Safe date, day, and time formatters to prevent Next.js hydration mismatches and runtime crashes
+  const formatLongDate = (dateStr?: string) => {
+    if (!dateStr) return "21 Desember 2025";
+    try {
+      const months = [
+        "Januari", "Februari", "Maret", "April", "Mei", "Juni",
+        "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+      ];
+      const dObj = new Date(dateStr);
+      if (isNaN(dObj.getTime())) return "21 Desember 2025";
+      return `${dObj.getDate()} ${months[dObj.getMonth()]} ${dObj.getFullYear()}`;
+    } catch {
+      return "21 Desember 2025";
+    }
+  };
+
+  const formatDayName = (dateStr?: string) => {
+    if (!dateStr) return "Minggu";
+    try {
+      const days = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
+      const dObj = new Date(dateStr);
+      if (isNaN(dObj.getTime())) return "Minggu";
+      return days[dObj.getDay()];
+    } catch {
+      return "Minggu";
+    }
+  };
+
+  const formatTime = (dateStr?: string) => {
+    if (!dateStr) return "09:00";
+    try {
+      const dObj = new Date(dateStr);
+      if (isNaN(dObj.getTime())) return "09:00";
+      const hrs = String(dObj.getHours()).padStart(2, "0");
+      const mins = String(dObj.getMinutes()).padStart(2, "0");
+      return `${hrs}:${mins}`;
+    } catch {
+      return "09:00";
+    }
+  };
+
   const cardAnims: Variants = {
     hidden: { scale: 0.88, opacity: 0 },
     visible: {
@@ -25,17 +66,22 @@ export default function CultureAkadResepsi({ data, tier = "all" }: Props) {
   };
 
   const handleAddToCalendar = (title: string, dateStr: string, venue: string, address: string) => {
-    const eventDate = new Date(dateStr);
-    const startIso = eventDate.toISOString().replace(/-|:|\.\d\d\d/g, "");
-    const endIso = new Date(eventDate.getTime() + 2 * 60 * 60 * 1000).toISOString().replace(/-|:|\.\d\d\d/g, "");
-    
-    const googleCalendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(
-      title
-    )}&dates=${startIso}/${endIso}&details=${encodeURIComponent(
-      `Mengharap kehadiran Anda pada acara ${title} kami di ${venue} (${address})`
-    )}&location=${encodeURIComponent(address)}`;
-
-    window.open(googleCalendarUrl, "_blank");
+    try {
+      const eventDate = dateStr ? new Date(dateStr) : new Date("2025-12-21");
+      if (isNaN(eventDate.getTime())) return;
+      const startIso = eventDate.toISOString().replace(/-|:|\.\d\d\d/g, "");
+      const endIso = new Date(eventDate.getTime() + 2 * 60 * 60 * 1000).toISOString().replace(/-|:|\.\d\d\d/g, "");
+      
+      const googleCalendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(
+        title
+      )}&dates=${startIso}/${endIso}&details=${encodeURIComponent(
+        `Mengharap kehadiran Anda pada acara ${title} kami di ${venue} (${address})`
+      )}&location=${encodeURIComponent(venue)}`;
+      
+      window.open(googleCalendarUrl, "_blank");
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   return (
@@ -89,20 +135,13 @@ export default function CultureAkadResepsi({ data, tier = "all" }: Props) {
 
               {/* Day, Date, Time */}
               <span className="font-culture-body text-[9px] uppercase tracking-widest text-[#8A7055] block">
-                {new Date(data.akadDate).toLocaleDateString("id-ID", { weekday: "long" })}
+                {formatDayName(data.akadDate)}
               </span>
               <span className="font-culture-number text-2xl font-bold text-[#8B6520] block my-1">
-                {new Date(data.akadDate).toLocaleDateString("id-ID", {
-                  day: "numeric",
-                  month: "long",
-                  year: "numeric",
-                })}
+                {formatLongDate(data.akadDate)}
               </span>
               <span className="font-culture-body text-xs text-[#6B3D2E]/80 font-medium tracking-wide">
-                Pukul {new Date(data.akadDate).toLocaleTimeString("id-ID", {
-                  hour: "2-digit",
-                  minute: "2-digit",
-                })} WIB
+                Pukul {formatTime(data.akadDate)} WIB
               </span>
 
               <CultureDivider variant="simple" color="#C9973A" className="my-5" />
@@ -171,20 +210,13 @@ export default function CultureAkadResepsi({ data, tier = "all" }: Props) {
 
               {/* Day, Date, Time */}
               <span className="font-culture-body text-[9px] uppercase tracking-widest text-[#8A7055] block">
-                {new Date(data.resepsiDate).toLocaleDateString("id-ID", { weekday: "long" })}
+                {formatDayName(data.resepsiDate)}
               </span>
               <span className="font-culture-number text-2xl font-bold text-[#8B6520] block my-1">
-                {new Date(data.resepsiDate).toLocaleDateString("id-ID", {
-                  day: "numeric",
-                  month: "long",
-                  year: "numeric",
-                })}
+                {formatLongDate(data.resepsiDate)}
               </span>
               <span className="font-culture-body text-xs text-[#6B3D2E]/80 font-medium tracking-wide">
-                Pukul {new Date(data.resepsiDate).toLocaleTimeString("id-ID", {
-                  hour: "2-digit",
-                  minute: "2-digit",
-                })} WIB
+                Pukul {formatTime(data.resepsiDate)} WIB
               </span>
 
               <CultureDivider variant="simple" color="#C9973A" className="my-5" />

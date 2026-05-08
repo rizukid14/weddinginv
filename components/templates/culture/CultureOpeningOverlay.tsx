@@ -15,6 +15,22 @@ interface Props {
 export default function CultureOpeningOverlay({ data, guestName, onOpen }: Props) {
   const [particlesActive, setParticlesActive] = useState(false);
 
+  // Safe date formatter to avoid Next.js hydration mismatches and runtime crash
+  const formatLongDate = (dateStr?: string) => {
+    if (!dateStr) return "21 Desember 2025";
+    try {
+      const months = [
+        "Januari", "Februari", "Maret", "April", "Mei", "Juni",
+        "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+      ];
+      const dObj = new Date(dateStr);
+      if (isNaN(dObj.getTime())) return "21 Desember 2025";
+      return `${dObj.getDate()} ${months[dObj.getMonth()]} ${dObj.getFullYear()}`;
+    } catch {
+      return "21 Desember 2025";
+    }
+  };
+
   // Activate particles 2 seconds after mount
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -107,11 +123,7 @@ export default function CultureOpeningOverlay({ data, guestName, onOpen }: Props
           transition={{ delay: 1.5, duration: 0.8 }}
           className="font-culture-number text-lg text-[#8B6520] tracking-[0.2em] uppercase block mb-1"
         >
-          {new Date(data.akadDate).toLocaleDateString("id-ID", {
-            day: "numeric",
-            month: "long",
-            year: "numeric",
-          })}
+          {formatLongDate(data.akadDate)}
         </motion.span>
         <motion.span
           initial={{ opacity: 0 }}

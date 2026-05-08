@@ -20,16 +20,44 @@ export default function CultureCover({ data }: Props) {
     detik: 0,
   });
 
+  // Safe date/day formatters to prevent Next.js hydration mismatches and runtime crashes
+  const formatLongDate = (dateStr?: string) => {
+    if (!dateStr) return "21 Desember 2025";
+    try {
+      const months = [
+        "Januari", "Februari", "Maret", "April", "Mei", "Juni",
+        "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+      ];
+      const dObj = new Date(dateStr);
+      if (isNaN(dObj.getTime())) return "21 Desember 2025";
+      return `${dObj.getDate()} ${months[dObj.getMonth()]} ${dObj.getFullYear()}`;
+    } catch {
+      return "21 Desember 2025";
+    }
+  };
+
+  const formatDayName = (dateStr?: string) => {
+    if (!dateStr) return "Minggu";
+    try {
+      const days = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
+      const dObj = new Date(dateStr);
+      if (isNaN(dObj.getTime())) return "Minggu";
+      return days[dObj.getDay()];
+    } catch {
+      return "Minggu";
+    }
+  };
+
   const bgRef = useParallax<HTMLDivElement>({ speed: 0.15 });
   const photoRef = useParallax<HTMLDivElement>({ speed: 0.25 });
   const cornerRef = useParallax<HTMLDivElement>({ speed: 0.4 });
 
   useEffect(() => {
-    const target = new Date(data.akadDate).getTime();
+    const target = data.akadDate ? new Date(data.akadDate).getTime() : new Date("2025-12-21").getTime();
 
     const updateTimer = () => {
       const now = new Date().getTime();
-      const difference = target - now;
+      const difference = isNaN(target) ? 0 : target - now;
 
       if (difference <= 0) {
         setTimeLeft({ hari: 0, jam: 0, menit: 0, detik: 0 });
@@ -143,11 +171,7 @@ export default function CultureCover({ data }: Props) {
           }}
           className="font-culture-number text-[#8B6520] text-base tracking-[0.2em]"
         >
-          {new Date(data.akadDate).toLocaleDateString("id-ID", {
-            day: "numeric",
-            month: "long",
-            year: "numeric",
-          })}
+          {formatLongDate(data.akadDate)}
         </motion.span>
 
         <motion.span
@@ -157,7 +181,7 @@ export default function CultureCover({ data }: Props) {
           }}
           className="font-culture-body text-[8px] uppercase tracking-wider text-[#8A7055] mt-0.5 mb-5 block"
         >
-          {new Date(data.akadDate).toLocaleDateString("id-ID", { weekday: "long" })}
+          {formatDayName(data.akadDate)}
         </motion.span>
 
         {/* Symmetrical countdown grid block */}
