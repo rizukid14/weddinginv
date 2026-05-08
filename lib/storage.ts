@@ -1,18 +1,34 @@
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { storage } from "./firebase";
+/**
+ * Client-side storage utility.
+ * Uploads files via the server-side /api/upload route (Vercel Blob).
+ * This approach is fully CORS-safe — no direct browser-to-Firebase calls.
+ */
 
 /**
- * Upload a file to Firebase Storage under weddings/{uid}/{path}
- * Returns the public download URL.
+ * Upload a file to Vercel Blob via the /api/upload server route.
+ * Returns the public CDN URL of the uploaded file.
  */
 export async function uploadFile(
   uid: string,
   file: File,
   path: string
 ): Promise<string> {
-  const storageRef = ref(storage, `weddings/${uid}/${path}`);
-  const snapshot = await uploadBytes(storageRef, file);
-  return getDownloadURL(snapshot.ref);
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("path", `weddings/${uid}/${path}`);
+
+  const response = await fetch("/api/upload", {
+    method: "POST",
+    body: formData,
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => ({}));
+    throw new Error(errorData.error || `Upload failed with status ${response.status}`);
+  }
+
+  const { url } = await response.json();
+  return url;
 }
 
 /**
