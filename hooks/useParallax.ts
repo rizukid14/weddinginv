@@ -1,51 +1,58 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { useGSAP } from "./useGSAP";
 
 interface ParallaxOptions {
-  speed?: number;      // 0.1 = very slow, 0.5 = medium, 1 = normal
+  speed?: number; // 0.1 = very subtle, 0.5 = medium, 1 = strong
   direction?: "y" | "x";
-  start?: string;      // GSAP ScrollTrigger start (default: "top bottom")
-  end?: string;        // GSAP ScrollTrigger end (default: "bottom top")
 }
 
+/**
+ * Pure native scroll parallax — no GSAP, no external deps.
+ * Fully SSR-safe for Next.js App Router.
+ */
 export function useParallax<T extends HTMLElement>(
   options: ParallaxOptions = {}
 ) {
   const ref = useRef<T>(null);
-  const { gsap, ScrollTrigger } = useGSAP();
-  const { speed = 0.3, direction = "y", start = "top bottom", end = "bottom top" } = options;
+  const { speed = 0.3, direction = "y" } = options;
 
   useEffect(() => {
-    if (!gsap || !ScrollTrigger || !ref.current) return;
-
     const el = ref.current;
-    const distance = direction === "y" ? 80 * speed : 60 * speed;
+    if (!el || typeof window === "undefined") return;
 
-    const tween = gsap.fromTo(el,
-      { [direction]: distance * -1 },
-      {
-        [direction]: distance,
-        ease: "none",
-        scrollTrigger: {
-          trigger: el,
-          start,
-          end,
-          scrub: 1,         // smooth scrub (number instead of boolean)
-        }
-      }
-    );
+    let rafId: number;
 
-    return () => {
-      if (tween) {
-        if (tween.scrollTrigger) {
-          tween.scrollTrigger.kill();
-        }
-        tween.kill();
+    const update = () => {
+      const rect = el.getBoundingClientRect();
+      // How far the element's center is from the viewport center
+      const viewportMid = window.innerHeight / 2;
+      const elMid = rect.top + rect.height / 2;
+      const offset = (elMid - viewportMid) * speed * -0.25;
+
+      if (direction === "y") {
+        el.style.transform = `translateY(${offset}px)`;
+      } else {
+        el.style.transform = `translateX(${offset}px)`;
       }
     };
-  }, [gsap, ScrollTrigger, speed, direction, start, end]);
+
+    const onScroll = () => {
+      if (rafId) cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(update);
+    };
+
+    // Run once on mount to set initial position
+    update();
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      if (rafId) cancelAnimationFrame(rafId);
+      // Reset transform on unmount
+      if (el) el.style.transform = "";
+    };
+  }, [speed, direction]);
 
   return ref;
 }
