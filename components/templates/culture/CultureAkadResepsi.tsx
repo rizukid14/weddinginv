@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import { Calendar, MapPin } from "lucide-react";
 import { WeddingData } from "@/types/wedding";
 import { CornerOrnament, KawungPattern, MegaMendungPattern } from "./CultureBatikSVG";
@@ -15,7 +15,7 @@ interface Props {
 export default function CultureAkadResepsi({ data, tier = "all" }: Props) {
   const isAkadOnly = tier === "akad";
 
-  const cardAnims = {
+  const cardAnims: Variants = {
     hidden: { scale: 0.88, opacity: 0 },
     visible: {
       scale: 1,

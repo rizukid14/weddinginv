@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import { KawungOrnament, ParangBorder } from "./CultureBatikSVG";
 
 interface CultureDividerProps {
@@ -21,7 +21,7 @@ export default function CultureDivider({
     return <ParangBorder color={color} opacity={0.3} className={className} />;
   }
 
-  const lineVariants = {
+  const lineVariants: Variants = {
     hidden: { scaleX: 0 },
     visible: {
       scaleX: 1,

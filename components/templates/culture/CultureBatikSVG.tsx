@@ -74,16 +74,15 @@ export function MegaMendungPattern({ color = "#C9973A", opacity = 0.07, classNam
 // 4. STANDALONE KAWUNG ORNAMENT
 // Symmetrical round batik medallion
 export function KawungOrnament({ size = 100, color = "#C9973A", animated = false, className = "" }: SVGProps) {
-  const Component = animated ? motion.div : "div";
   const animProps = animated
     ? {
         animate: { scale: [1, 1.05, 1] },
-        transition: { duration: 3.5, repeat: Infinity, ease: "easeInOut" },
+        transition: { duration: 3.5, repeat: Infinity, ease: "easeInOut" as const },
       }
     : {};
 
   return (
-    <Component
+    <motion.div
       className={`inline-block select-none ${className}`}
       style={{ width: size, height: size }}
       {...animProps}
@@ -105,7 +104,7 @@ export function KawungOrnament({ size = 100, color = "#C9973A", animated = false
         <circle cx="30" cy="70" r="2.5" fill={color} />
         <circle cx="70" cy="70" r="2.5" fill={color} />
       </svg>
-    </Component>
+    </motion.div>
   );
 }
 
@@ -131,7 +130,6 @@ export function ParangBorder({ color = "#C9973A", opacity = 0.3, className = "" 
 // 6. CORNER ORNAMENT
 // Intricate geometric Javanese corner frame accents
 export function CornerOrnament({ position = "tl", size = 60, color = "#C9973A", animated = false, className = "" }: SVGProps & { position?: "tl" | "tr" | "bl" | "br" }) {
-  const Component = animated ? motion.div : "div";
   const getRotationAngle = () => {
     if (position === "tr") return 90;
     if (position === "br") return 180;
@@ -142,12 +140,12 @@ export function CornerOrnament({ position = "tl", size = 60, color = "#C9973A", 
   const animProps = animated
     ? {
         animate: { rotate: [getRotationAngle() - 2, getRotationAngle() + 2, getRotationAngle() - 2] },
-        transition: { duration: 6, repeat: Infinity, ease: "easeInOut" },
+        transition: { duration: 6, repeat: Infinity, ease: "easeInOut" as const },
       }
     : {};
 
   return (
-    <Component
+    <motion.div
       className={`absolute select-none pointer-events-none ${className}`}
       style={{
         width: size,
@@ -175,6 +173,6 @@ export function CornerOrnament({ position = "tl", size = 60, color = "#C9973A", 
         <circle cx="32" cy="12" r="1.5" fill={color} />
         <circle cx="12" cy="32" r="1.5" fill={color} />
       </svg>
-    </Component>
+    </motion.div>
   );
 }

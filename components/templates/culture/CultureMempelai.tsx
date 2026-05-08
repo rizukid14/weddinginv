@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import { WeddingData } from "@/types/wedding";
 import { useParallax } from "@/hooks/useParallax";
 import { CornerOrnament, KawungOrnament, ParangPattern, ParangBorder } from "./CultureBatikSVG";
@@ -17,7 +17,7 @@ export default function CultureMempelai({ data }: Props) {
   const bridePhotoRef = useParallax<HTMLDivElement>({ speed: 0.22 });
   const groomPhotoRef = useParallax<HTMLDivElement>({ speed: 0.25 });
 
-  const revealVariants = {
+  const revealVariants: Variants = {
     hidden: { opacity: 0, y: 30 },
     visible: {
       opacity: 1,

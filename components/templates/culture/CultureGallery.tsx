@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import { WeddingData } from "@/types/wedding";
 import { CornerOrnament, ParangPattern } from "./CultureBatikSVG";
 import CultureDivider from "./CultureDivider";
@@ -26,7 +26,7 @@ export default function CultureGallery({ data }: Props) {
         "https://placehold.co/400x500/efe4cc/c9973a?text=Galeri+6",
       ];
 
-  const containerVariants = {
+  const containerVariants: Variants = {
     hidden: {},
     visible: {
       transition: {
@@ -36,7 +36,7 @@ export default function CultureGallery({ data }: Props) {
   };
 
   // Staggered back.out elastic overshoot reveals for gallery photos
-  const photoVariants = {
+  const photoVariants: Variants = {
     hidden: { scale: 0.82, opacity: 0 },
     visible: {
       scale: 1,

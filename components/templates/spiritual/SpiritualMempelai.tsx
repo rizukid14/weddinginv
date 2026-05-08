@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import { WeddingData } from "@/types/wedding";
 import { EightPointedStar, GeometricTessellation, IslamicArch } from "./SpiritualGeometric";
 import SpiritualDivider from "./SpiritualDivider";
@@ -11,7 +11,7 @@ interface Props {
 }
 
 export default function SpiritualMempelai({ data }: Props) {
-  const revealVariants = {
+  const revealVariants: Variants = {
     hidden: { opacity: 0, y: 25 },
     visible: {
       opacity: 1,

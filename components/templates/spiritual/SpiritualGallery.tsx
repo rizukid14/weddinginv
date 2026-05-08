@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import { WeddingData } from "@/types/wedding";
 import { GeometricTessellation } from "./SpiritualGeometric";
 import SpiritualDivider from "./SpiritualDivider";
@@ -25,7 +25,7 @@ export default function SpiritualGallery({ data }: Props) {
         "https://placehold.co/400x500/f0ebe0/b7882a?text=Galeri+6",
       ];
 
-  const containerVariants = {
+  const containerVariants: Variants = {
     hidden: {},
     visible: {
       transition: {
@@ -34,7 +34,7 @@ export default function SpiritualGallery({ data }: Props) {
     },
   };
 
-  const photoVariants = {
+  const photoVariants: Variants = {
     hidden: { opacity: 0, y: 15 },
     visible: {
       opacity: 1,

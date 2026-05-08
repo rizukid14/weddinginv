@@ -14,16 +14,15 @@ interface SVGProps {
 // 1. EIGHT POINTED STAR (Khatam)
 // Symmetrical overlapping squares creating an 8-pointed star
 export function EightPointedStar({ size = 32, color = "#B7882A", animated = true, className = "" }: SVGProps) {
-  const Component = animated ? motion.div : "div";
   const animProps = animated
     ? {
         animate: { rotate: 360 },
-        transition: { duration: 25, repeat: Infinity, ease: "linear" },
+        transition: { duration: 25, repeat: Infinity, ease: "linear" as const },
       }
     : {};
 
   return (
-    <Component
+    <motion.div
       className={`inline-block select-none pointer-events-none ${className}`}
       style={{ width: size, height: size }}
       {...animProps}
@@ -39,7 +38,7 @@ export function EightPointedStar({ size = 32, color = "#B7882A", animated = true
         {/* Center dot */}
         <circle cx="50" cy="50" r="4" fill={color} />
       </svg>
-    </Component>
+    </motion.div>
   );
 }
 
