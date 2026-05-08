@@ -1,13 +1,13 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getWeddingData } from "@/lib/wedding";
-import WeddingInvitation from "@/components/invitation/WeddingInvitation";
+import TemplateSwitcher from "@/components/templates/TemplateSwitcher";
 
 export const dynamic = "force-dynamic";
 
 interface PageProps {
   params: { slug: string };
-  searchParams: { to?: string };
+  searchParams: { to?: string; tier?: string };
 }
 
 // Generate premium dynamic SEO meta properties for share preview cards (WhatsApp/Facebook)
@@ -49,12 +49,15 @@ export default async function InvitationPage({ params, searchParams }: PageProps
 
   // Parse guest name from 'to' query param (support spaces represented by %20 or +)
   const guestName = searchParams.to ? decodeURIComponent(searchParams.to).replace(/\+/g, " ") : null;
+  const tier = searchParams.tier === "akad" ? "akad" : "all";
 
   return (
-    <WeddingInvitation
+    <TemplateSwitcher
       data={data}
       slug={params.slug}
       guestName={guestName}
+      tier={tier}
     />
   );
 }
+

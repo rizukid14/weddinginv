@@ -5,7 +5,7 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import { WeddingData } from "@/types/wedding";
-import CountdownTimer from "../ui/CountdownTimer";
+import CountdownTimer from "@/components/ui/CountdownTimer";
 import { fadeUp, fadeIn } from "@/lib/animations";
 
 interface Props {

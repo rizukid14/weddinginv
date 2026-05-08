@@ -14,12 +14,14 @@ export interface WeddingData {
   groomFatherName: string;     // "Bpk. Hendra Pratama"
   groomMotherName: string;     // "Ibu Sari Pratama"
   groomPhoto: string;          // Firebase Storage URL
+  groomInstagram?: string;
 
   brideName: string;           // "Amira Putri Rahayu"
   brideNickname: string;       // "Amira"
   brideFatherName: string;
   brideMotherName: string;
   bridePhoto: string;
+  brideInstagram?: string;
 
   // Acara
   akadEnabled: boolean;
@@ -48,10 +50,20 @@ export interface WeddingData {
   bankAccounts: BankAccount[];
   ewallets: EWallet[];
   giftRegistryUrl?: string;
+  giftAddress?: string;
+  giftReceiverName?: string;
 
   // Quote
   openingQuote: string;
   openingQuoteSource: string;
+
+  // Split invitations
+  splitInvitationEnabled?: boolean;
+  defaultInvitationTier?: "akad" | "all";
+
+  // Spiritual template options
+  bismillahEnabled?: boolean;
+  ayatNikahEnabled?: boolean;
 
   // Meta
   createdAt: string;
@@ -62,12 +74,14 @@ export interface BankAccount {
   bankName: string;
   accountNumber: string;
   accountName: string;
+  logoUrl?: string;
 }
 
 export interface EWallet {
   provider: string;            // "GoPay" | "OVO" | "Dana"
   number: string;
   qrCodeUrl?: string;
+  accountName?: string;
 }
 
 export interface RSVPEntry {

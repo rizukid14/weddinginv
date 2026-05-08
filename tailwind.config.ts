@@ -27,6 +27,15 @@ const config: Config = {
         display: ["var(--font-display)", "cursive"],
         serif: ["var(--font-heading)", "serif"],
         sans: ["var(--font-body)", "sans-serif"],
+        // Brush
+        "brush-display": ["var(--font-brush-display)", "serif"],
+        "brush-heading": ["var(--font-brush-heading)", "serif"],
+        "brush-body": ["var(--font-brush-body)", "sans-serif"],
+        "brush-accent": ["var(--font-brush-accent)", "cursive"],
+        // Modern
+        "modern-display": ["var(--font-modern-display)", "sans-serif"],
+        "modern-body": ["var(--font-modern-body)", "monospace"],
+        "modern-accent": ["var(--font-modern-accent)", "serif"],
       },
     },
   },

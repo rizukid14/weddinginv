@@ -14,6 +14,27 @@
   --floral-sage-dark  : #5A7A55;
   --floral-text       : #2C2424;
   --floral-muted      : #9A8070;
+
+  /* SPRINT 3 - BRUSH THEME */
+  --brush-paper       : #F7F3EE;
+  --brush-warm        : #EDE4D9;
+  --brush-ink         : #1A1410;
+  --brush-ink-soft    : #3D3028;
+  --brush-stroke      : #C17F4A;
+  --brush-accent      : #8B3A3A;
+  --brush-sage        : #6B7F6B;
+  --brush-muted       : #8A7B6E;
+  --brush-gold        : #B8923A;
+
+  /* SPRINT 3 - MODERN THEME */
+  --modern-white      : #FFFFFF;
+  --modern-off        : #F8F8F6;
+  --modern-light      : #EDEDEB;
+  --modern-mid        : #C8C8C4;
+  --modern-dark       : #1C1C1A;
+  --modern-black      : #0A0A09;
+  --modern-accent     : #FF4D00;
+  --modern-accent2    : #E8E0D5;
 }
 
 html {
