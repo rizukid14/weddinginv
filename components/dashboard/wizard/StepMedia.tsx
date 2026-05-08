@@ -32,10 +32,11 @@ export default function StepMedia({ data, update }: StepProps) {
   const brideInputRef = useRef<HTMLInputElement>(null);
   const galleryInputRef = useRef<HTMLInputElement>(null);
   const musicInputRef = useRef<HTMLInputElement>(null);
+  const thankYouInputRef = useRef<HTMLInputElement>(null);
 
   const handleSingleImageUpload = async (
     e: React.ChangeEvent<HTMLInputElement>,
-    field: "coverPhoto" | "groomPhoto" | "bridePhoto"
+    field: "coverPhoto" | "groomPhoto" | "bridePhoto" | "thankYouPhoto"
   ) => {
     const file = e.target.files?.[0];
     if (!file || !user) return;
@@ -258,6 +259,51 @@ export default function StepMedia({ data, update }: StepProps) {
             className="hidden" 
           />
         </div>
+      </div>
+
+      {/* Thank You Photo Upload (For Seasonal Template) */}
+      <div className="flex flex-col gap-2.5">
+        <div className="flex flex-col">
+          <label className="text-[10px] uppercase tracking-widest text-zinc-400 font-semibold">
+            Foto Penutup (Thank You Photo)
+          </label>
+          <span className="text-[10px] text-zinc-500">Opsional, hanya untuk template yang mendukung (misal: Seasonal)</span>
+        </div>
+        <div 
+          onClick={() => thankYouInputRef.current?.click()}
+          className="aspect-video max-w-sm rounded-2xl border-2 border-dashed border-zinc-800/80 bg-zinc-900/10 hover:border-amber-500/50 cursor-pointer overflow-hidden flex items-center justify-center relative group transition-all"
+        >
+          {data.thankYouPhoto ? (
+            <>
+              <img 
+                src={data.thankYouPhoto} 
+                className="w-full h-full object-cover transition-transform group-hover:scale-105" 
+                alt="Thank You" 
+              />
+              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
+                <Upload size={18} className="text-white" />
+              </div>
+            </>
+          ) : (
+            <div className="flex flex-col items-center gap-1.5 text-zinc-500 group-hover:text-amber-500">
+              <ImagePlus size={24} />
+              <span className="text-[10px] font-semibold uppercase tracking-wider">Unggah Foto Bersama</span>
+            </div>
+          )}
+          
+          {uploadingField === "thankYouPhoto" && (
+            <div className="absolute inset-0 bg-[#110F0F]/80 flex items-center justify-center z-20">
+              <Loader2 className="w-6 h-6 text-amber-500 animate-spin" />
+            </div>
+          )}
+        </div>
+        <input 
+          type="file" 
+          ref={thankYouInputRef} 
+          onChange={(e) => handleSingleImageUpload(e, "thankYouPhoto")} 
+          accept="image/*" 
+          className="hidden" 
+        />
       </div>
 
       {/* Prewedding Gallery Section */}

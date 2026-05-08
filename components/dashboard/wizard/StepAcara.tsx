@@ -234,6 +234,52 @@ export default function StepAcara({ data, update }: StepProps) {
           Waktu dan tanggal yang Anda masukkan pada bagian Resepsi otomatis akan menjadi target acuan utama untuk Countdown Timer di halaman depan undangan.
         </p>
       </div>
+
+      {/* Our Story Section (Seasonal Template Feature) */}
+      <div className="flex flex-col gap-4 bg-zinc-900/10 border border-zinc-800/40 p-5 rounded-2xl">
+        <div className="flex items-center justify-between border-b border-zinc-800/80 pb-3 mb-2">
+          <div className="flex flex-col">
+            <span className="text-xs uppercase tracking-widest text-amber-500 font-bold">
+              Our Story (Cerita Cinta)
+            </span>
+            <span className="text-[10px] text-zinc-500 mt-1">
+              Hanya ditampilkan jika template mendukung fitur ini (misal: Seasonal)
+            </span>
+          </div>
+          {/* Toggle Switch */}
+          <button
+            type="button"
+            onClick={() => handleChange("ourStoryEnabled", !data.ourStoryEnabled)}
+            className={`w-11 h-6 rounded-full relative p-1 transition-colors duration-200 focus:outline-none shrink-0 ${
+              data.ourStoryEnabled ? "bg-amber-500" : "bg-zinc-800"
+            }`}
+          >
+            <div
+              className={`w-4 h-4 rounded-full bg-[#110F0F] transition-transform duration-200 ${
+                data.ourStoryEnabled ? "translate-x-5" : "translate-x-0"
+              }`}
+            />
+          </button>
+        </div>
+
+        {data.ourStoryEnabled && (
+          <div className="flex flex-col gap-1.5 animate-fade-in">
+            <label className="text-[10px] uppercase tracking-widest text-zinc-400 font-semibold flex justify-between">
+              <span>Cerita Pertemuan Kalian</span>
+              <span className={((data.ourStory?.length || 0) > 1000) ? "text-red-400" : "text-zinc-500"}>
+                {data.ourStory?.length || 0}/1000
+              </span>
+            </label>
+            <textarea
+              rows={5}
+              value={data.ourStory || ""}
+              onChange={(e) => handleChange("ourStory", e.target.value.slice(0, 1000))}
+              placeholder="Ceritakan awal mula kalian bertemu hingga akhirnya memutuskan untuk menikah..."
+              className="w-full bg-[#221F1F] border border-zinc-800 rounded-lg px-4 py-3 text-sm text-zinc-100 placeholder:text-zinc-700 focus:border-amber-500 focus:outline-none transition-colors resize-y min-h-[100px]"
+            />
+          </div>
+        )}
+      </div>
     </div>
   );
 }

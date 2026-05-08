@@ -65,6 +65,13 @@ export interface WeddingData {
   bismillahEnabled?: boolean;
   ayatNikahEnabled?: boolean;
 
+  // Seasonal template options
+  ourStoryEnabled?: boolean;
+  ourStory?: string;
+  thankYouEnabled?: boolean;
+  thankYouMessage?: string;
+  thankYouPhoto?: string;
+
   // Meta
   createdAt: string;
   expiresAt: string;

@@ -8,6 +8,7 @@ import ModernTemplate from "./modern";
 import RetroTemplate from "./retro";
 import CultureTemplate from "./culture";
 import SpiritualTemplate from "./spiritual";
+import SeasonalTemplate from "./seasonal";
 
 interface Props {
   data: WeddingData;
@@ -24,6 +25,8 @@ export default function TemplateSwitcher({ data, slug, guestName, tier = "all" }
       return <CultureTemplate data={data} slug={slug} guestName={guestName} tier={tier} />;
     case "spiritual":
       return <SpiritualTemplate data={data} slug={slug} guestName={guestName} tier={tier} />;
+    case "seasonal":
+      return <SeasonalTemplate data={data} slug={slug} guestName={guestName} tier={tier} />;
     case "retro":
       return <RetroTemplate data={data} slug={slug} guestName={guestName} />;
     case "brush":

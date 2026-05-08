@@ -389,6 +389,72 @@ export const dummyWeddingSpiritual: WeddingData = {
   expiresAt: "2028-12-31T00:00:00"
 };
 
+export const dummyWeddingSeasonal: WeddingData = {
+  slug: "vidi-hening",
+  templateId: "seasonal",
+  isActive: true,
+  passwordEnabled: false,
+
+  groomName: "Vidi Dwi Saputra",
+  groomNickname: "Vidi",
+  groomFatherName: "Bpk. Tjipto Gunawan",
+  groomMotherName: "Ibu Felicia Susanto",
+  groomPhoto: "https://placehold.co/400x600/f5ead8/6b3d2e?text=Vidi",
+
+  brideName: "Hening Tyas Saputri",
+  brideNickname: "Hening",
+  brideFatherName: "Bpk. Budiman Thamrin",
+  brideMotherName: "Ibu Sarah Erawati",
+  bridePhoto: "https://placehold.co/400x600/f5ead8/6b3d2e?text=Hening",
+
+  akadEnabled: true,
+  akadDate: "2025-12-12T09:00:00",
+  akadVenue: "Masjid Al-Ittihad",
+  akadAddress: "Jl. Tebet Barat Dalam No. 8, Jakarta Selatan",
+  akadMapsUrl: "https://maps.google.com/?q=-6.2355,106.8526",
+
+  resepsiEnabled: true,
+  resepsiDate: "2025-12-12T12:00:00",
+  resepsiVenue: "Rooftop The Hermitage Jakarta",
+  resepsiAddress: "Jl. Cilacap No. 1, Menteng, Jakarta Pusat",
+  resepsiMapsUrl: "https://maps.google.com/?q=-6.1976,106.8272",
+
+  coverPhoto: "https://placehold.co/800x1067/fdf6ee/6b3d2e?text=Vidi+%26+Hening",
+  galleryPhotos: [
+    "https://placehold.co/800x533/f5ead8/c8856a?text=Gallery+1",
+    "https://placehold.co/400x500/fdf6ee/6b3d2e?text=Gallery+2",
+    "https://placehold.co/400x500/f5ead8/6b8b47?text=Gallery+3",
+    "https://placehold.co/800x533/fdf6ee/c9a96e?text=Gallery+4",
+    "https://placehold.co/400x500/f5ead8/c8856a?text=Gallery+5",
+    "https://placehold.co/400x500/fdf6ee/6b3d2e?text=Gallery+6"
+  ],
+
+  musicEnabled: true,
+  musicUrl: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3",
+  musicTitle: "Hanya Rindu — Andmesh",
+
+  giftEnabled: true,
+  bankAccounts: [
+    { bankName: "BCA", accountNumber: "5544332211", accountName: "Vidi Dwi Saputra" }
+  ],
+  ewallets: [
+    { provider: "GoPay", number: "081312345678", accountName: "Vidi Dwi" }
+  ],
+
+  ourStoryEnabled: true,
+  ourStory: "Cinta tidak kenal waktu, kondisimu, berapa usiamu, dan siapa kamu. Cinta adalah pendekripsian yang tidak ada habisnya. Cinta bukan apa-apa bagi yang tidak pernah merasakannya. Sebab ia hanya sebuah kata. Mudah di ucap. Namun tidak mudah untuk di jelaskan. Cinta itu yang kami rasakan. Cinta itu adalah asal mula. Asal mula yang kami rasakan melalui sebuah jaringan sosial media. Berawal dari Vidi menyapa Hening suatu hari di bulan Juli 2019. Usut punya usut, kedekatan itu pun terjalin hanya melalui sosmed. Disanalah kami memulai menulis cerita dalam sebuah buku yang sama — merasakan hal yang sama tanpa dipaksa. Dan kini, kami melanjutkan cerita itu di hadapan kalian semua.",
+
+  thankYouEnabled: true,
+  thankYouMessage: "Kami mengucapkan terimakasih kepada Bapak/Ibu/Saudara yang telah menghadiri seluruh rangkaian acara pernikahan kami. Semoga waktu yang diberikan oleh Bapak/Ibu/Saudara sekalian menjadi berkah dan manfaat yang kelak dibalas oleh Tuhan Yang Maha Esa. Terima kasih atas seluruh ucapan yang diberikan. Semoga kami menjadi pasangan yang berbahagia dunia dan akhirat :)",
+  thankYouPhoto: "https://placehold.co/600x450/fdf6ee/6b3d2e?text=Together+Forever",
+
+  openingQuote: "Dan di antara tanda-tanda kekuasaan-Nya ialah Dia menciptakan untukmu istri-istri dari jenismu sendiri.",
+  openingQuoteSource: "QS. Ar-Rum: 21",
+
+  createdAt: "2025-01-01T00:00:00",
+  expiresAt: "2026-12-31T00:00:00"
+};
+
 export async function getWeddingData(slug: string): Promise<WeddingData | null> {
   // If Firebase Admin SDK is initialized, read from Firestore
   if (adminDb) {
@@ -421,6 +487,10 @@ export async function getWeddingData(slug: string): Promise<WeddingData | null> 
         console.log(`[Firebase Seeding] Automatically seeding spiritual template wedding profile for '${slug}' into live Cloud Firestore...`);
         await docRef.set(dummyWeddingSpiritual);
         return dummyWeddingSpiritual;
+      } else if (slug === "vidi-hening") {
+        console.log(`[Firebase Seeding] Automatically seeding seasonal template wedding profile for '${slug}' into live Cloud Firestore...`);
+        await docRef.set(dummyWeddingSeasonal);
+        return dummyWeddingSeasonal;
       }
     } catch (err) {
       console.error(`Error fetching/seeding wedding from Firestore for slug ${slug}:`, err);
@@ -445,6 +515,9 @@ export async function getWeddingData(slug: string): Promise<WeddingData | null> 
   }
   if (slug === "hendra-nadia") {
     return dummyWeddingSpiritual;
+  }
+  if (slug === "vidi-hening") {
+    return dummyWeddingSeasonal;
   }
 
   return null;

@@ -201,6 +201,52 @@ export default function StepPengaturan({ data, update }: StepProps) {
         )}
       </div>
 
+      {/* Thank You Section (Seasonal Template Feature) */}
+      <div className="flex flex-col gap-4 bg-zinc-900/10 border border-zinc-800/40 p-5 rounded-2xl">
+        <div className="flex items-center justify-between border-b border-zinc-800/80 pb-3 mb-2 select-none">
+          <div className="flex flex-col">
+            <span className="text-xs uppercase tracking-widest text-amber-500 font-bold">
+              Pesan Penutup (Thank You)
+            </span>
+            <span className="text-[10px] text-zinc-500 mt-1">
+              Hanya ditampilkan jika template mendukung fitur ini (misal: Seasonal)
+            </span>
+          </div>
+          {/* Toggle Switch */}
+          <button
+            type="button"
+            onClick={() => update({ thankYouEnabled: !data.thankYouEnabled })}
+            className={`w-11 h-6 rounded-full relative p-1 transition-colors duration-200 focus:outline-none shrink-0 ${
+              data.thankYouEnabled ? "bg-amber-500" : "bg-zinc-800"
+            }`}
+          >
+            <div
+              className={`w-4 h-4 rounded-full bg-[#110F0F] transition-transform duration-200 ${
+                data.thankYouEnabled ? "translate-x-5" : "translate-x-0"
+              }`}
+            />
+          </button>
+        </div>
+
+        {data.thankYouEnabled && (
+          <div className="flex flex-col gap-2 animate-fade-in">
+            <label className="text-[10px] uppercase tracking-widest text-zinc-400 font-semibold mb-1 flex justify-between">
+              <span>Pesan Terima Kasih</span>
+              <span className={((data.thankYouMessage?.length || 0) > 500) ? "text-red-400" : "text-zinc-500"}>
+                {data.thankYouMessage?.length || 0}/500
+              </span>
+            </label>
+            <textarea
+              rows={4}
+              value={data.thankYouMessage || ""}
+              onChange={(e) => update({ thankYouMessage: e.target.value.slice(0, 500) })}
+              placeholder="Kami mengucapkan terimakasih kepada Bapak/Ibu/Saudara yang telah menghadiri..."
+              className="w-full bg-[#221F1F] border border-zinc-800 rounded-lg px-4 py-2.5 text-sm text-zinc-100 placeholder:text-zinc-700 focus:border-amber-500 focus:outline-none transition-colors resize-y min-h-[100px]"
+            />
+          </div>
+        )}
+      </div>
+
       {/* Template Selector Section */}
       <div className="flex flex-col gap-4">
         <span className="text-[10px] uppercase tracking-widest text-amber-500 font-bold border-b border-zinc-800/80 pb-1.5 block select-none">
@@ -316,6 +362,25 @@ export default function StepPengaturan({ data, update }: StepProps) {
             <span className="text-xs font-bold text-zinc-100">Spiritual Islamic</span>
             <span className="text-[10px] text-zinc-400">Keagungan islami bernuansa kubah mihrab hijau zamrud dan emas khatam.</span>
             {data.templateId === "spiritual" && (
+              <div className="absolute top-2 right-2 w-3.5 h-3.5 rounded-full bg-amber-500 flex items-center justify-center">
+                <Check size={10} className="text-zinc-950 stroke-[3]" />
+              </div>
+            )}
+          </button>
+
+          {/* Option 7: Seasonal */}
+          <button
+            type="button"
+            onClick={() => update({ templateId: "seasonal" })}
+            className={`text-left rounded-xl p-4 flex flex-col gap-1.5 relative overflow-hidden select-none transition-all duration-300 ${
+              data.templateId === "seasonal"
+                ? "border-2 border-amber-500 bg-[#221F1F]/20 shadow-lg shadow-amber-500/5"
+                : "border border-zinc-800/80 bg-zinc-900/10 hover:border-zinc-700 hover:bg-zinc-800/10"
+            }`}
+          >
+            <span className="text-xs font-bold text-zinc-100">Seasonal Floral</span>
+            <span className="text-[10px] text-zinc-400">Romantic garden party dengan efek parallax bunga, kupu-kupu, dan tirai.</span>
+            {data.templateId === "seasonal" && (
               <div className="absolute top-2 right-2 w-3.5 h-3.5 rounded-full bg-amber-500 flex items-center justify-center">
                 <Check size={10} className="text-zinc-950 stroke-[3]" />
               </div>
